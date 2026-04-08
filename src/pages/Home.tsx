@@ -13,21 +13,25 @@ export default function Home() {
     const fetchTemas = async () => {
       console.log('Iniciando busca de temas...');
       try {
-        const { data: { session } } = await supabase.auth.getSession();
-        console.log('Sessão atual:', session ? 'Conectado como ' + session.user.email : 'Não autenticado');
+        // Buscamos os temas de forma independente para não travar a tela
+        const themesPromise = supabase.from('temas').select('*').order('created_at', { ascending: false });
         
-        const { data, error } = await supabase.from('temas').select('*').order('created_at', { ascending: false });
+        // Verificamos a sessão em paralelo (sem travar)
+        supabase.auth.getSession().then(({ data: { session } }) => {
+          console.log('Verificação de sessão paralela:', session ? 'Usuário: ' + session.user.email : 'Visitante');
+        }).catch(e => console.warn('Erro ao checar sessão:', e));
+
+        const { data, error } = await themesPromise;
         
         if (error) {
           console.error('Erro detalhado do Supabase:', error);
-          alert('Erro ao carregar temas: ' + error.message);
+          // Não vamos dar alert aqui para não irritar o usuário, vamos apenas logar e parar o loading
         } else {
           console.log('Temas recebidos:', data?.length || 0, 'itens');
           if (data) setTemas(data);
         }
       } catch (err) {
         console.error('Erro crítico na Home:', err);
-        alert('Erro inesperado na Home. Veja o console (F12).');
       } finally {
         console.log('Busca de temas finalizada.');
         setLoading(false);
