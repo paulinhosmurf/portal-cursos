@@ -124,10 +124,10 @@ export default function ConteudoAdmin() {
                      <div style={{ marginLeft: 'auto', display: 'flex', gap: '8px', alignItems: 'center' }}>
                         {isAdmin && (
                           <>
-                            <button className="icon-btn-small" onClick={(e) => handleRenameTema(tema.id, tema.name, e)} title="Renomear Tema">
+                            <button className="icon-btn-action btn-edit" onClick={(e) => handleRenameTema(tema.id, tema.name, e)} title="Renomear Tema">
                               <Pencil size={16} />
                             </button>
-                            <button className="icon-btn-small" onClick={(e) => handleDeleteTema(tema.id, e)} title="Excluir Tema" style={{ color: 'var(--danger-color)' }}>
+                            <button className="icon-btn-action btn-delete" onClick={(e) => handleDeleteTema(tema.id, e)} title="Excluir Tema">
                               <Trash2 size={16} />
                             </button>
                           </>
@@ -155,11 +155,11 @@ export default function ConteudoAdmin() {
                                 <strong style={{ fontSize: '0.95rem', color: 'var(--text-primary)' }}>{modulo.name}</strong>
                                 
                                 {isAdmin && (
-                                   <div style={{ marginLeft: '8px', display: 'flex', gap: '4px' }}>
-                                      <button className="icon-btn-small" onClick={(e) => handleRenameModulo(modulo.id, modulo.name, e)} title="Renomear Módulo">
+                                   <div style={{ marginLeft: '8px', display: 'flex', gap: '6px' }}>
+                                      <button className="icon-btn-action btn-edit" onClick={(e) => handleRenameModulo(modulo.id, modulo.name, e)} title="Renomear Módulo">
                                         <Pencil size={14} />
                                       </button>
-                                      <button className="icon-btn-small" onClick={(e) => handleDeleteModulo(modulo.id, e)} title="Excluir Módulo" style={{ color: 'var(--danger-color)' }}>
+                                      <button className="icon-btn-action btn-delete" onClick={(e) => handleDeleteModulo(modulo.id, e)} title="Excluir Módulo">
                                         <Trash2 size={14} />
                                       </button>
                                    </div>
@@ -182,11 +182,11 @@ export default function ConteudoAdmin() {
                                          </Link>
                                          
                                          {isAdmin && (
-                                            <div style={{ display: 'flex', gap: '4px' }}>
-                                              <button className="icon-btn-small" onClick={(e) => handleRenameAula(aula.id, aula.title, e)} title="Renomear Aula">
+                                            <div style={{ display: 'flex', gap: '6px' }}>
+                                              <button className="icon-btn-action btn-edit" onClick={(e) => handleRenameAula(aula.id, aula.title, e)} title="Renomear Aula">
                                                 <Pencil size={14} />
                                               </button>
-                                              <button className="icon-btn-small" onClick={(e) => handleDeleteAula(aula.id, e)} title="Excluir Aula" style={{ color: 'var(--danger-color)' }}>
+                                              <button className="icon-btn-action btn-delete" onClick={(e) => handleDeleteAula(aula.id, e)} title="Excluir Aula">
                                                 <Trash2 size={14} />
                                               </button>
                                             </div>
