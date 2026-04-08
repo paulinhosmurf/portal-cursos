@@ -82,8 +82,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <div style={{ background: 'rgba(255,255,255,0.05)', padding: '5px', borderRadius: '50%', border: '1px solid rgba(255,255,255,0.05)' }}>
                 <User size={14} color="var(--text-primary)" />
               </div>
-              <span style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
-                {userProfile?.name?.split(' ')[0] || '...'}
+              <span style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', whiteSpace: 'nowrap' }}>
+                {userProfile?.name || '...'}
               </span>
             </div>
             <button onClick={handleSignOut} className="icon-btn" title="Sair" style={{ padding: '6px' }}>
