@@ -27,12 +27,16 @@ export default function Register() {
     });
 
     if (signUpError) {
-      setError(signUpError.message || 'Erro ao criar conta');
+      if (signUpError.status === 429 || signUpError.message.includes('rate limit')) {
+        setError('Limite de tentativas excedido. Por favor, aguarde alguns minutos antes de tentar novamente.');
+      } else {
+        setError(signUpError.message || 'Erro ao criar conta');
+      }
       return;
     }
 
     if (data.user && data.user.identities && data.user.identities.length === 0) {
-      setError("Este e-mail já está em uso.");
+      setError("Este e-mail já possui uma conta ativa. Caso tenha excluído anteriormente, aguarde a conclusão da remoção ou use a recuperação de senha.");
       return;
     }
 

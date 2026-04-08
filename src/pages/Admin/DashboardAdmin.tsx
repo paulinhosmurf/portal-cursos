@@ -56,9 +56,13 @@ export default function DashboardAdmin() {
   };
 
   const handleDelete = async (id: string) => {
-    if(window.confirm('Excluir este perfil permanentemente?')) {
-      await supabase.from('user_profiles').delete().eq('id', id);
-      // Not calling supabase.auth.admin.deleteUser here due to client side permissions, but profile is deleted.
+    if(window.confirm('Excluir este perfil permanentemente? O usuário será removido de todo o sistema.')) {
+      const { error } = await supabase.rpc('delete_user_completely', { user_id_to_delete: id });
+      if (error) {
+        console.error('Erro ao excluir usuário:', error);
+        alert('Erro ao excluir usuário. Verifique se você tem permissões.');
+      }
+      await fetchUsers();
     }
   };
 
