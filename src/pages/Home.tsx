@@ -11,9 +11,17 @@ export default function Home() {
 
   useEffect(() => {
     const fetchTemas = async () => {
-      const { data } = await supabase.from('temas').select('*').order('created_at', { ascending: false });
-      if (data) setTemas(data);
-      setLoading(false);
+      try {
+        const { data, error } = await supabase.from('temas').select('*').order('created_at', { ascending: false });
+        if (error) {
+          console.error('Erro ao buscar temas:', error);
+        }
+        if (data) setTemas(data);
+      } catch (err) {
+        console.error('Exceção ao buscar temas:', err);
+      } finally {
+        setLoading(false);
+      }
     };
     fetchTemas();
   }, []);

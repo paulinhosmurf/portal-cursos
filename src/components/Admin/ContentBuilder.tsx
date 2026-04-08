@@ -49,21 +49,30 @@ export default function ContentBuilder() {
     if (!temaName || !temaDesc) return alert('Preencha nome e descrição.');
     const randomTheme = themeColors[Math.floor(Math.random() * themeColors.length)];
     const { error } = await supabase.from('temas').insert([{ name: temaName, description: temaDesc, color: randomTheme.color, border: randomTheme.border }]);
-    if (error) alert('Erro: ' + error.message);
+    if (error) {
+      console.error('Erro ao criar tema:', error);
+      alert('Erro ao criar tema: ' + (error.message || 'Erro desconhecido'));
+    }
     else { alert('Tema criado!'); setTemaName(''); setTemaDesc(''); }
   };
 
   const handleCreateModulo = async () => {
     if (!modTemaId || !modName) return alert('Selecione um tema e digite o nome do módulo.');
     const { error } = await supabase.from('modulos').insert([{ tema_id: modTemaId, name: modName }]);
-    if (error) alert('Erro: ' + error.message);
+    if (error) {
+      console.error('Erro ao criar módulo:', error);
+      alert('Erro ao criar módulo: ' + (error.message || 'Erro desconhecido'));
+    }
     else { alert('Módulo criado!'); setModName(''); }
   };
 
   const handleCreateAula = async () => {
     if (!aulaModId || !aulaTitle || !aulaContent) return alert('Preencha os campos da Aula.');
     const { error } = await supabase.from('aulas').insert([{ modulo_id: aulaModId, title: aulaTitle, content: aulaContent }]);
-    if (error) alert('Erro: ' + error.message);
+    if (error) {
+      console.error('Erro ao criar aula:', error);
+      alert('Erro ao criar aula: ' + (error.message || 'Erro desconhecido'));
+    }
     else { alert('Aula Publicada!'); setAulaTitle(''); setAulaContent(''); }
   };
 
