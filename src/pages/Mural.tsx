@@ -102,65 +102,30 @@ export default function Mural() {
     <Layout>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-          <div style={{ position: 'relative', width: '60px', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            {/* Anéis de Pulsação (Efeito Sonar) */}
-            {[1, 2, 3].map((i) => (
-              <motion.div
-                key={i}
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  borderRadius: '16px',
-                  background: 'var(--primary-color)',
-                  zIndex: 0
-                }}
-                initial={{ opacity: 0.3, scale: 1 }}
-                animate={{ 
-                  opacity: 0, 
-                  scale: 1.8 
-                }}
-                transition={{ 
-                  duration: 2, 
-                  repeat: Infinity, 
-                  delay: i * 0.6,
-                  ease: "easeOut" 
-                }}
-              />
-            ))}
-            
-            {/* Ícone Principal com Gradiente Animado */}
+          <div style={{ position: 'relative', width: '56px', height: '56px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            {/* Ícone Principal Minimalista e Animado */}
             <motion.div 
               style={{ 
-                position: 'relative',
-                zIndex: 1,
                 width: '100%',
                 height: '100%',
-                background: 'linear-gradient(135deg, var(--primary-color) 0%, #06b6d4 100%)', 
+                background: 'var(--primary-color)', 
                 borderRadius: '16px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                boxShadow: '0 8px 32px rgba(16, 185, 129, 0.4)',
+                boxShadow: '0 4px 15px rgba(16, 185, 129, 0.2)',
                 border: '1px solid rgba(255,255,255,0.1)'
               }}
               animate={{
-                background: [
-                  'linear-gradient(135deg, var(--primary-color) 0%, #06b6d4 100%)',
-                  'linear-gradient(135deg, #06b6d4 0%, var(--primary-color) 100%)',
-                  'linear-gradient(135deg, var(--primary-color) 0%, #06b6d4 100%)',
-                ]
+                scale: [1, 1.03, 1],
               }}
-              transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+              transition={{ 
+                duration: 4, 
+                repeat: Infinity, 
+                ease: "easeInOut" 
+              }}
             >
-              <motion.div
-                animate={{ 
-                  rotate: [-5, 5, -5],
-                  scale: [1, 1.1, 1]
-                }}
-                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-              >
-                <Megaphone size={30} color="white" />
-              </motion.div>
+              <Megaphone size={26} color="white" />
             </motion.div>
           </div>
           <div>
