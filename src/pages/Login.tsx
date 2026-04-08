@@ -18,7 +18,7 @@ export default function Login() {
     });
 
     if (signInError) {
-      setError('Credenciais inválidas ou erro no Supabase.');
+      setError('E-mail ou senha incorretos. Por favor, verifique seus dados.');
     } else {
       const user = signInData.user;
       
@@ -31,7 +31,8 @@ export default function Login() {
 
       if (profile?.status === 'pending') {
         await supabase.auth.signOut();
-        alert('Conta não autorizada. Sua solicitação ainda está em análise por um administrador.');
+        alert('Sua conta ainda não foi autorizada. Por favor, aguarde a aprovação de um administrador.');
+        setError('Acesso pendente de aprovação.');
       } else {
         navigate('/');
       }
