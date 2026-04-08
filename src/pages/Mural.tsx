@@ -13,12 +13,19 @@ export default function Mural() {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [editingAviso, setEditingAviso] = useState<Aviso | null>(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   
   // Form states
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [isImportant, setIsImportant] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const isAdmin = userProfile?.role === 'admin';
 
@@ -100,21 +107,36 @@ export default function Mural() {
 
   return (
     <Layout>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-          <div style={{ position: 'relative', width: '64px', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ 
+        display: 'flex', 
+        flexDirection: isMobile ? 'column' : 'row',
+        justifyContent: 'space-between', 
+        alignItems: isMobile ? 'flex-start' : 'center', 
+        marginBottom: isMobile ? '24px' : '32px',
+        gap: '16px'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? '12px' : '20px' }}>
+          <div style={{ 
+            position: 'relative', 
+            width: isMobile ? '48px' : '64px', 
+            height: isMobile ? '48px' : '64px', 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'center',
+            flexShrink: 0
+          }}>
             {/* Ícone de Exclamação Giratório Premium */}
             <motion.div 
               style={{ 
                 width: '100%',
                 height: '100%',
-                background: 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)', // Gradiente Dourado/Âmbar
-                borderRadius: '50%', // Circular para o efeito de girar
+                background: 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)',
+                borderRadius: '50%',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 boxShadow: '0 0 20px rgba(251, 191, 36, 0.4)',
-                border: '2px solid rgba(255,255,255,0.2)',
+                border: isMobile ? '1px solid rgba(255,255,255,0.2)' : '2px solid rgba(255,255,255,0.2)',
                 position: 'relative'
               }}
               animate={{
@@ -126,12 +148,12 @@ export default function Mural() {
                 scale: { duration: 2, repeat: Infinity, ease: "easeInOut" }
               }}
             >
-              <AlertCircle size={32} color="white" strokeWidth={2.5} />
+              <AlertCircle size={isMobile ? 24 : 32} color="white" strokeWidth={2.5} />
             </motion.div>
           </div>
           <div>
-            <h2 style={{ margin: 0 }}>Mural de Avisos</h2>
-            <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Fique por dentro das atualizações oficiais.</p>
+            <h2 style={{ margin: 0, fontSize: isMobile ? '1.2rem' : '1.5rem' }}>Mural de Avisos</h2>
+            <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '0.8rem' }}>Acompanhe as atualizações.</p>
           </div>
         </div>
 
@@ -139,7 +161,13 @@ export default function Mural() {
           <button 
             className="btn-primary" 
             onClick={() => handleOpenModal()}
-            style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+            style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: '8px',
+              width: isMobile ? '100%' : 'auto',
+              justifyContent: 'center'
+            }}
           >
             <Plus size={20} /> Novo Aviso
           </button>

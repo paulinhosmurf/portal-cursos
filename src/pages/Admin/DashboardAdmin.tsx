@@ -97,6 +97,7 @@ export default function DashboardAdmin() {
         >
           <h2 style={{ marginBottom: '24px' }}>Usuários e Solicitações</h2>
           <div style={{ overflowX: 'auto' }}>
+          <div className="table-responsive">
             <table className="admin-table">
               <thead>
                 <tr>
@@ -151,6 +152,7 @@ export default function DashboardAdmin() {
                 {users.length === 0 && <tr><td colSpan={4} style={{ padding: '12px', textAlign: 'center', color: 'var(--text-secondary)' }}>Nenhum usuário encontrado.</td></tr>}
               </tbody>
             </table>
+          </div>
           </div>
         </motion.div>
       )}
