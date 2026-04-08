@@ -13,15 +13,8 @@ export default function Home() {
     const fetchTemas = async () => {
       console.log('Iniciando busca de temas...');
       try {
-        // Buscamos os temas de forma independente para não travar a tela
-        const themesPromise = supabase.from('temas').select('*').order('created_at', { ascending: false });
-        
-        // Verificamos a sessão em paralelo (sem travar)
-        supabase.auth.getSession().then(({ data: { session } }) => {
-          console.log('Verificação de sessão paralela:', session ? 'Usuário: ' + session.user.email : 'Visitante');
-        }).catch(e => console.warn('Erro ao checar sessão:', e));
-
-        const { data, error } = await themesPromise;
+        // Buscamos os temas de forma independente
+        const { data, error } = await supabase.from('temas').select('*').order('created_at', { ascending: false });
         
         if (error) {
           console.error('Erro detalhado do Supabase:', error);

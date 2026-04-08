@@ -54,10 +54,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       console.log('Evento de Auth:', event);
       if (session?.user) {
-        setCurrentUser(session.user);
-        // Só buscamos perfil se o usuário mudou ou se ainda não temos perfil
-        if (!userProfile || userProfile.id !== session.user.id) {
-          await fetchProfile(session.user.id);
+        // Usamos uma atualização funcional para evitar loops se o usuário for o mesmo
+        setCurrentUser(prevUser => {
+          if (prevUser?.id === session.user.id) return prevUser;
+          return session.user;
+        });
+        
+        // Só buscamos perfil se o usuário for novo ou se ainda não temos perfil
+        const userId = session.user.id;
+        if (!userProfile || userProfile.id !== userId) {
+          await fetchProfile(userId);
         }
       } else {
         setCurrentUser(null);
