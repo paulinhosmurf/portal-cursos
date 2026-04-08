@@ -30,13 +30,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', paddingBottom: isMobile ? '80px' : '0' }}>
-      {/* Top Navbar Responsiva e Compacta */}
+      {/* Top Navbar Minimalista - Apenas Logo no Mobile */}
       <header 
         style={{ 
           margin: isMobile ? '8px auto' : '24px auto', 
-          padding: isMobile ? '6px 12px' : '12px 24px', 
+          padding: isMobile ? '8px 16px' : '12px 24px', 
           display: 'flex', 
-          justifyContent: 'space-between', 
+          justifyContent: isMobile ? 'center' : 'space-between', 
           alignItems: 'center',
           maxWidth: '1200px',
           width: isMobile ? 'calc(100% - 16px)' : 'calc(100% - 48px)',
@@ -47,49 +47,37 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           zIndex: 100,
           position: isMobile ? 'sticky' : 'relative',
           top: isMobile ? '8px' : 'auto',
-          transition: 'all 0.3s ease'
+          height: isMobile ? '44px' : 'auto'
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? '4px' : '32px', flex: 1, minWidth: 0 }}>
-          <Link to="/" style={{ flexShrink: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
+          <Link to="/">
             <motion.img 
               src="/images/Logo-Branca.PNG" 
               alt="Portal de Cursos" 
-              style={{ height: isMobile ? '28px' : '76px', objectFit: 'contain', cursor: 'pointer' }}
+              style={{ height: isMobile ? '24px' : '76px', objectFit: 'contain', cursor: 'pointer' }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             />
           </Link>
           
-          <div className={isMobile ? "nav-scroll-container" : ""} style={{ 
-            display: 'flex', 
-            gap: isMobile ? '4px' : '8px', 
-            flex: 1, 
-            minWidth: 0,
-            justifyContent: isMobile ? 'flex-start' : 'center'
-          }}>
-            {navItems.map((item) => (
-              <Link 
-                key={item.path}
-                to={item.path} 
-                className={`nav-link ${location.pathname === item.path ? 'nav-link-active' : ''}`}
-                style={{
-                  fontSize: isMobile ? '0.75rem' : '0.9rem',
-                  padding: isMobile ? '6px 10px' : '8px 14px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  flexShrink: 0
-                }}
-              >
-                <item.icon size={isMobile ? 14 : 18} /> {item.label}
-              </Link>
-            ))}
-          </div>
+          {!isMobile && (
+            <nav style={{ display: 'flex', gap: '8px', marginLeft: '8px' }}>
+              {navItems.map((item) => (
+                <Link 
+                  key={item.path}
+                  to={item.path} 
+                  className={`nav-link ${location.pathname === item.path ? 'nav-link-active' : ''}`}
+                >
+                  <item.icon size={18} /> {item.label}
+                </Link>
+              ))}
+            </nav>
+          )}
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? '6px' : '24px', flexShrink: 0 }}>
-          {!isMobile && (
+        {!isMobile && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
             <div className="flex-center" style={{ gap: '6px' }}>
               <div style={{ background: 'rgba(255,255,255,0.05)', padding: '5px', borderRadius: '50%', border: '1px solid rgba(255,255,255,0.05)' }}>
                 <User size={14} color="var(--text-primary)" />
@@ -98,11 +86,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 {userProfile?.name?.split(' ')[0] || '...'}
               </span>
             </div>
-          )}
-          <button onClick={handleSignOut} className="icon-btn" title="Sair" style={{ padding: '6px' }}>
-            <LogOut size={isMobile ? 16 : 20} />
-          </button>
-        </div>
+            <button onClick={handleSignOut} className="icon-btn" title="Sair" style={{ padding: '6px' }}>
+              <LogOut size={20} />
+            </button>
+          </div>
+        )}
       </header>
 
       {/* Main Content Área Centralizada */}
@@ -127,7 +115,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </motion.div>
       </main>
 
-      {/* Bottom Navigation para Mobile */}
+      {/* Bottom Navigation para Mobile - Única Fonte de Navegação */}
       <AnimatePresence>
         {isMobile && (
           <motion.nav 
@@ -138,47 +126,67 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               position: 'fixed',
               bottom: '24px',
               left: '50%',
-              width: 'calc(100% - 32px)',
+              width: 'calc(100% - 16px)',
               maxWidth: '430px',
-              height: '66px',
+              height: '68px',
               background: 'rgba(15, 15, 15, 0.85)',
-              backdropFilter: 'blur(15px)',
+              backdropFilter: 'blur(20px)',
               border: '1px solid rgba(255, 255, 255, 0.12)',
               borderRadius: '999px',
               display: 'flex',
-              justifyContent: 'space-between',
+              justifyContent: 'space-around',
               alignItems: 'center',
-              padding: '0 12px',
+              padding: '0 8px',
               zIndex: 1000,
               boxShadow: '0 10px 40px rgba(0,0,0,0.5)',
             }}
           >
-            {navItems.map((item) => {
+            {[...navItems, { path: 'logout', label: 'Sair', icon: LogOut }].map((item) => {
               const isActive = location.pathname === item.path;
+              const isLogout = item.path === 'logout';
+
+              const handleClick = (e: React.MouseEvent) => {
+                if (isLogout) {
+                  e.preventDefault();
+                  handleSignOut();
+                }
+              };
+
               return (
                 <Link 
                   key={item.path}
-                  to={item.path}
+                  to={isLogout ? "#" : item.path}
+                  onClick={handleClick}
                   style={{
                     flex: 1,
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    gap: '4px',
+                    gap: '2px',
                     color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)',
                     textDecoration: 'none',
                     position: 'relative',
                     height: '100%',
-                    transition: 'color 0.2s ease'
+                    transition: 'color 0.2s ease',
+                    minWidth: 0
                   }}
                 >
                   <motion.div
                     animate={isActive ? { scale: 1.1, y: -2 } : { scale: 1, y: 0 }}
                   >
-                    <item.icon size={22} strokeWidth={isActive ? 2.5 : 2} />
+                    <item.icon size={20} strokeWidth={isActive ? 2.5 : 2} />
                   </motion.div>
-                  <span style={{ fontSize: '0.6rem', fontWeight: isActive ? '700' : '500', letterSpacing: '0.02em' }}>
+                  <span style={{ 
+                    fontSize: '0.55rem', 
+                    fontWeight: isActive ? '700' : '500', 
+                    letterSpacing: '-0.01em',
+                    width: '100%',
+                    textAlign: 'center',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap'
+                  }}>
                     {item.label}
                   </span>
                   {isActive && (
