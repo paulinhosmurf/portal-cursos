@@ -11,15 +11,25 @@ export default function Home() {
 
   useEffect(() => {
     const fetchTemas = async () => {
+      console.log('Iniciando busca de temas...');
       try {
+        const { data: { session } } = await supabase.auth.getSession();
+        console.log('Sessão atual:', session ? 'Conectado como ' + session.user.email : 'Não autenticado');
+        
         const { data, error } = await supabase.from('temas').select('*').order('created_at', { ascending: false });
+        
         if (error) {
-          console.error('Erro ao buscar temas:', error);
+          console.error('Erro detalhado do Supabase:', error);
+          alert('Erro ao carregar temas: ' + error.message);
+        } else {
+          console.log('Temas recebidos:', data?.length || 0, 'itens');
+          if (data) setTemas(data);
         }
-        if (data) setTemas(data);
       } catch (err) {
-        console.error('Exceção ao buscar temas:', err);
+        console.error('Erro crítico na Home:', err);
+        alert('Erro inesperado na Home. Veja o console (F12).');
       } finally {
+        console.log('Busca de temas finalizada.');
         setLoading(false);
       }
     };
