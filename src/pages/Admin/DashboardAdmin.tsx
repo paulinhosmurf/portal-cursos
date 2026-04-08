@@ -101,7 +101,6 @@ export default function DashboardAdmin() {
               <thead>
                 <tr>
                   <th>Nome</th>
-                  <th>ID do Supabase</th>
                   <th>Status</th>
                   <th>Role</th>
                   <th>Ações</th>
@@ -119,7 +118,7 @@ export default function DashboardAdmin() {
                        <span style={{ fontWeight: 500 }}>{u.name}</span>
                        <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>{u.email}</span>
                     </td>
-                    <td style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>{u.id.substring(0, 8)}...</td>
+
                     <td>
                       {u.status === 'pending' ? 
                         <span style={{ color: '#fbbf24', background: 'rgba(251, 191, 36, 0.1)', padding: '4px 8px', borderRadius: '4px', fontSize: '0.85rem' }}>Pendente</span> : 
@@ -149,7 +148,7 @@ export default function DashboardAdmin() {
                     </td>
                   </motion.tr>
                 ))}
-                {users.length === 0 && <tr><td colSpan={5} style={{ padding: '12px', textAlign: 'center', color: 'var(--text-secondary)' }}>Nenhum usuário encontrado.</td></tr>}
+                {users.length === 0 && <tr><td colSpan={4} style={{ padding: '12px', textAlign: 'center', color: 'var(--text-secondary)' }}>Nenhum usuário encontrado.</td></tr>}
               </tbody>
             </table>
           </div>
