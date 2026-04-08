@@ -225,7 +225,12 @@ export default function Mural() {
               <div 
                 className="rich-content"
                 dangerouslySetInnerHTML={{ __html: aviso.content }}
-                style={{ color: 'var(--text-secondary)', lineHeight: '1.6' }}
+                style={{ 
+                  color: 'var(--text-secondary)', 
+                  lineHeight: '1.6',
+                  wordBreak: 'break-word',
+                  overflowWrap: 'anywhere'
+                }}
               />
             </motion.div>
           ))
