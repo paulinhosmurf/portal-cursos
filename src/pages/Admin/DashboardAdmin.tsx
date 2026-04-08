@@ -44,11 +44,15 @@ export default function DashboardAdmin() {
   }, []);
 
   const handleStatus = async (id: string, newStatus: 'active' | 'pending') => {
-    await supabase.from('user_profiles').update({ status: newStatus }).eq('id', id);
+    const { error } = await supabase.from('user_profiles').update({ status: newStatus }).eq('id', id);
+    if (error) console.error('Erro ao atualizar status:', error);
+    await fetchUsers(); // Feedback imediato
   };
 
   const handleRole = async (id: string, newRole: 'admin' | 'user') => {
-    await supabase.from('user_profiles').update({ role: newRole }).eq('id', id);
+    const { error } = await supabase.from('user_profiles').update({ role: newRole }).eq('id', id);
+    if (error) console.error('Erro ao atualizar role:', error);
+    await fetchUsers(); // Feedback imediato
   };
 
   const handleDelete = async (id: string) => {

@@ -12,7 +12,7 @@ export default function Login() {
     e.preventDefault();
     setError('');
     
-    const { error: signInError } = await supabase.auth.signInWithPassword({
+    const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
@@ -20,7 +20,21 @@ export default function Login() {
     if (signInError) {
       setError('Credenciais inválidas ou erro no Supabase.');
     } else {
-      navigate('/');
+      const user = signInData.user;
+      
+      // Verificamos o status do perfil antes de permitir a entrada
+      const { data: profile } = await supabase
+        .from('user_profiles')
+        .select('status')
+        .eq('id', user.id)
+        .single();
+
+      if (profile?.status === 'pending') {
+        await supabase.auth.signOut();
+        alert('Conta não autorizada. Sua solicitação ainda está em análise por um administrador.');
+      } else {
+        navigate('/');
+      }
     }
   };
 

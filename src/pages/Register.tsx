@@ -9,6 +9,8 @@ export default function Register() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
+  const [success, setSuccess] = useState(false);
+
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
@@ -30,14 +32,31 @@ export default function Register() {
     }
 
     if (data.user && data.user.identities && data.user.identities.length === 0) {
-      // User already exists
       setError("Este e-mail já está em uso.");
       return;
     }
 
-    // Usually, we can navigate directly if email confirmation is off
-    navigate('/');
+    setSuccess(true);
+    setTimeout(() => {
+      navigate('/');
+    }, 3000);
   };
+
+  if (success) {
+    return (
+      <div className="auth-wrapper flex-center">
+        <div className="auth-card glass-panel animate-fade-in" style={{ textAlign: 'center', padding: '40px' }}>
+          <div style={{ color: 'var(--success-color)', marginBottom: '20px' }}>
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ width: '64px', height: '64px' }}>
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h2 style={{ marginBottom: '16px' }}>Cadastro Realizado!</h2>
+          <p style={{ color: 'var(--text-secondary)' }}>Sua solicitação foi enviada para nossos administradores. Redirecionando...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="auth-wrapper">
