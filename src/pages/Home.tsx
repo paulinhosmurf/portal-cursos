@@ -25,15 +25,12 @@ export default function Home() {
         
         if (error) {
           console.error('Erro detalhado do Supabase:', error);
-          // Não vamos dar alert aqui para não irritar o usuário, vamos apenas logar e parar o loading
         } else {
-          console.log('Temas recebidos:', data?.length || 0, 'itens');
           if (data) setTemas(data);
         }
       } catch (err) {
         console.error('Erro crítico na Home:', err);
       } finally {
-        console.log('Busca de temas finalizada.');
         setLoading(false);
       }
     };

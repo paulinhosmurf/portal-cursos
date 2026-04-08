@@ -35,17 +35,32 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     // Initial session fetch
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setCurrentUser(session?.user ?? null);
-      if (session?.user) fetchProfile(session.user.id);
-      else setLoading(false);
-    });
+    const initAuth = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session?.user) {
+          setCurrentUser(session.user);
+          await fetchProfile(session.user.id);
+        }
+      } catch (err) {
+        console.error('Erro na inicialização do auth:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
-      setCurrentUser(session?.user ?? null);
+    initAuth();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      console.log('Evento de Auth:', event);
       if (session?.user) {
-        await fetchProfile(session.user.id);
+        setCurrentUser(session.user);
+        // Só buscamos perfil se o usuário mudou ou se ainda não temos perfil
+        if (!userProfile || userProfile.id !== session.user.id) {
+          await fetchProfile(session.user.id);
+        }
       } else {
+        setCurrentUser(null);
         setUserProfile(null);
       }
       setLoading(false);
@@ -53,10 +68,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     return () => subscription.unsubscribe();
   }, []);
-
-  useEffect(() => {
-    if (currentUser && userProfile) setLoading(false);
-  }, [currentUser, userProfile]);
 
   const signOut = async () => {
     await supabase.auth.signOut();

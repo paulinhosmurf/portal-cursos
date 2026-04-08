@@ -13,8 +13,11 @@ import ConteudoAdmin from './pages/Admin/ConteudoAdmin';
 const ProtectedRoute = ({ children, requireAdmin = false }: { children: React.ReactNode, requireAdmin?: boolean }) => {
   const { currentUser, userProfile, loading } = useAuth();
 
-  if (loading) return <div className="flex-center" style={{ minHeight: '100vh' }}>Carregando...</div>;
-  if (!currentUser || !userProfile) return <Navigate to="/login" />;
+  if (loading) return <div className="flex-center" style={{ minHeight: '100vh' }}>Carregando Portal...</div>;
+  if (!currentUser) return <Navigate to="/login" />;
+  
+  // Se temos usuário mas o perfil ainda não carregou (raro), aguardamos um pouco
+  if (!userProfile) return <div className="flex-center" style={{ minHeight: '100vh' }}>Carregando Perfil...</div>;
   
   if (userProfile.status === 'pending') {
     return (
