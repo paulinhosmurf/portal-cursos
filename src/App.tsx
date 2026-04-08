@@ -10,6 +10,7 @@ import Tema from './pages/Tema';
 import Aula from './pages/Aula';
 import DashboardAdmin from './pages/Admin/DashboardAdmin';
 import ConteudoAdmin from './pages/Admin/ConteudoAdmin';
+import Mural from './pages/Mural';
 
 // Protected Route Component
 const ProtectedRoute = ({ children, requireAdmin = false }: { children: React.ReactNode, requireAdmin?: boolean }) => {
@@ -80,6 +81,12 @@ export default function App() {
           <Route path="/" element={
             <ProtectedRoute>
               <Home />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/mural" element={
+            <ProtectedRoute>
+              <Mural />
             </ProtectedRoute>
           } />
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { LogOut, User, Settings, LayoutDashboard, PlaySquare } from 'lucide-react';
+import { LogOut, User, Settings, LayoutDashboard, PlaySquare, Megaphone } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -51,6 +51,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </Link>
             <Link to="/conteudo" className={`nav-link ${location.pathname === '/conteudo' ? 'nav-link-active' : ''}`}>
               <PlaySquare size={18} /> Conteúdo
+            </Link>
+            <Link to="/mural" className={`nav-link ${location.pathname === '/mural' ? 'nav-link-active' : ''}`}>
+              <Megaphone size={18} /> Mural
             </Link>
             {userProfile?.role === 'admin' && (
               <Link to="/admin" className={`nav-link ${location.pathname === '/admin' ? 'nav-link-active' : ''}`}>

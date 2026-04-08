@@ -32,3 +32,12 @@ export interface Aula {
   order: number;
   created_at: string;
 }
+
+export interface Aviso {
+  id: string;
+  title: string;
+  content: string;
+  is_important: boolean;
+  created_at: string;
+  admin_id: string;
+}
