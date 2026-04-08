@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { supabase } from '../../config/supabase';
 import type { Tema, Modulo } from '../../types';
 import RichTextEditor from '../../components/RichTextEditor';

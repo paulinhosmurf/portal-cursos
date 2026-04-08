@@ -33,7 +33,7 @@ export function autoEmbedUrls(htmlContent: string): string {
 
   // 2. Direct MP4 URLs
   // Extract from <a> wrapper
-  newHtml = newHtml.replace(/<a[^>]*href=["']([^"']+\.mp4(?:\?\S*)?)["'][^>]*>.*?<\/a>/gi, (match, url) => {
+  newHtml = newHtml.replace(/<a[^>]*href=["']([^"']+\.mp4(?:\?\S*)?)["'][^>]*>.*?<\/a>/gi, (_, url) => {
     return `[MP4_EMBED:${url}]`;
   });
   
@@ -53,7 +53,7 @@ export function autoEmbedUrls(htmlContent: string): string {
   });
 
   // 3. Direct Image URLs (.png, .jpg, .jpeg, .gif, .webp)
-  newHtml = newHtml.replace(/<a[^>]*href=["']([^"']+\.(?:png|jpg|jpeg|gif|webp)(?:\?\S*)?)["'][^>]*>.*?<\/a>/gi, (match, url) => {
+  newHtml = newHtml.replace(/<a[^>]*href=["']([^"']+\.(?:png|jpg|jpeg|gif|webp)(?:\?\S*)?)["'][^>]*>.*?<\/a>/gi, (_, url) => {
     return `[IMG_EMBED:${url}]`;
   });
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Layout from '../components/Layout';
 import { useParams, Link } from 'react-router-dom';
 import { PlayCircle } from 'lucide-react';

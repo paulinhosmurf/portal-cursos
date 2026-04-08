@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Layout from '../components/Layout';
 import { Link } from 'react-router-dom';
 import { BookOpen } from 'lucide-react';
@@ -11,7 +11,7 @@ export default function Home() {
 
   useEffect(() => {
     const fetchTemas = async () => {
-      const { data, error } = await supabase.from('temas').select('*').order('created_at', { ascending: false });
+      const { data } = await supabase.from('temas').select('*').order('created_at', { ascending: false });
       if (data) setTemas(data);
       setLoading(false);
     };
