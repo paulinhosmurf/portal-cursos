@@ -30,12 +30,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', paddingBottom: isMobile ? '80px' : '0' }}>
-      {/* Top Navbar Minimalista - Apenas Logo no Mobile */}
+      {/* Top Navbar Minimalista - Oculta no Mobile em favor do novo layout de marca */}
       <header 
         style={{ 
           margin: isMobile ? '8px auto' : '24px auto', 
           padding: isMobile ? '8px 16px' : '12px 24px', 
-          display: 'flex', 
+          display: isMobile ? 'none' : 'flex', 
           justifyContent: isMobile ? 'center' : 'space-between', 
           alignItems: 'center',
           maxWidth: '1200px',
@@ -96,12 +96,26 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       {/* Main Content Área Centralizada */}
       <main style={{ 
         flex: 1, 
-        padding: isMobile ? '8px 8px 16px 8px' : '0 24px 24px 24px', 
+        padding: isMobile ? '0 12px 24px 12px' : '0 24px 24px 24px', 
         maxWidth: '1400px', 
         margin: '0 auto', 
         width: '100%', 
         overflow: 'visible' 
       }}>
+        {/* Nova Posição do Logo no Mobile - Maior e Visível */}
+        {isMobile && (
+          <div className="mobile-brand-header">
+            <Link to="/">
+              <motion.img 
+                src="/images/Logo-Branca.PNG" 
+                alt="Portal de Cursos"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+              />
+            </Link>
+          </div>
+        )}
+
         <motion.div 
           className="glass-panel" 
           style={{ minHeight: '80vh', padding: isMobile ? '20px' : '32px', borderRadius: isMobile ? '24px' : '32px' }}
