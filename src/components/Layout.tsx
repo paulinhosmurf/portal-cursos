@@ -50,7 +50,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <LayoutDashboard size={18} /> Início
             </Link>
             <Link to="/conteudo" className={`nav-link ${location.pathname === '/conteudo' ? 'nav-link-active' : ''}`}>
-              <PlaySquare size={18} /> Gestão
+              <PlaySquare size={18} /> Conteúdo
             </Link>
             {userProfile?.role === 'admin' && (
               <Link to="/admin" className={`nav-link ${location.pathname === '/admin' ? 'nav-link-active' : ''}`}>

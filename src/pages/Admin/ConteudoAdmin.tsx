@@ -95,7 +95,7 @@ export default function ConteudoAdmin() {
     <Layout>
       <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px' }}>
         <PlaySquare size={32} color="var(--primary-color)" />
-        <h2>Gestão de Conteúdo</h2>
+        <h2>Conteúdo das Aulas</h2>
       </div>
       
       <div className="glass-panel" style={{ padding: '24px' }}>
