@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import Layout from '../components/Layout';
-import { Megaphone, Plus, Trash2, Pencil, Calendar, AlertCircle, X, Save } from 'lucide-react';
+import { Plus, Trash2, Pencil, Calendar, AlertCircle, X, Save } from 'lucide-react';
 import { supabase } from '../config/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import type { Aviso } from '../types';
@@ -102,30 +102,31 @@ export default function Mural() {
     <Layout>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-          <div style={{ position: 'relative', width: '56px', height: '56px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            {/* Ícone Principal Minimalista e Animado */}
+          <div style={{ position: 'relative', width: '64px', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            {/* Ícone de Exclamação Giratório Premium */}
             <motion.div 
               style={{ 
                 width: '100%',
                 height: '100%',
-                background: 'var(--primary-color)', 
-                borderRadius: '16px',
+                background: 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)', // Gradiente Dourado/Âmbar
+                borderRadius: '50%', // Circular para o efeito de girar
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                boxShadow: '0 4px 15px rgba(16, 185, 129, 0.2)',
-                border: '1px solid rgba(255,255,255,0.1)'
+                boxShadow: '0 0 20px rgba(251, 191, 36, 0.4)',
+                border: '2px solid rgba(255,255,255,0.2)',
+                position: 'relative'
               }}
               animate={{
-                scale: [1, 1.03, 1],
+                rotate: 360,
+                scale: [1, 1.05, 1]
               }}
               transition={{ 
-                duration: 4, 
-                repeat: Infinity, 
-                ease: "easeInOut" 
+                rotate: { duration: 10, repeat: Infinity, ease: "linear" },
+                scale: { duration: 2, repeat: Infinity, ease: "easeInOut" }
               }}
             >
-              <Megaphone size={26} color="white" />
+              <AlertCircle size={32} color="white" strokeWidth={2.5} />
             </motion.div>
           </div>
           <div>
