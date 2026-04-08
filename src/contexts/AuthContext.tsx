@@ -36,15 +36,24 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     // Initial session fetch
     const initAuth = async () => {
+      // Timeout de 5s para não travar o site se o Supabase demorar
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Timeout na sessão')), 5000)
+      );
+
       try {
-        const { data: { session } } = await supabase.auth.getSession();
+        const sessionPromise = supabase.auth.getSession();
+        const { data: { session } } = (await Promise.race([sessionPromise, timeoutPromise])) as any;
+        
         if (session?.user) {
           setCurrentUser(session.user);
-          await fetchProfile(session.user.id);
+          // Buscamos o perfil, mas não deixamos ele travar o 'loading' global pra sempre
+          fetchProfile(session.user.id).finally(() => setLoading(false));
+        } else {
+          setLoading(false);
         }
       } catch (err) {
-        console.error('Erro na inicialização do auth:', err);
-      } finally {
+        console.error('Erro ou Timeout na inicialização do auth:', err);
         setLoading(false);
       }
     };
@@ -54,16 +63,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       console.log('Evento de Auth:', event);
       if (session?.user) {
-        // Usamos uma atualização funcional para evitar loops se o usuário for o mesmo
         setCurrentUser(prevUser => {
           if (prevUser?.id === session.user.id) return prevUser;
           return session.user;
         });
         
-        // Só buscamos perfil se o usuário for novo ou se ainda não temos perfil
         const userId = session.user.id;
         if (!userProfile || userProfile.id !== userId) {
-          await fetchProfile(userId);
+          // fetchProfile aqui também não deve bloquear o setLoading(false)
+          fetchProfile(userId);
         }
       } else {
         setCurrentUser(null);
@@ -95,7 +103,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <AuthContext.Provider value={value}>
-      {!loading && children}
+      {children}
     </AuthContext.Provider>
   );
 };
