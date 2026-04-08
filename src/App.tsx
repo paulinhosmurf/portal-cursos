@@ -101,8 +101,8 @@ export default function App() {
             </ProtectedRoute>
           } />
 
-          <Route path="/admin/conteudo" element={
-            <ProtectedRoute requireAdmin={true}>
+          <Route path="/conteudo" element={
+            <ProtectedRoute>
               <ConteudoAdmin />
             </ProtectedRoute>
           } />
