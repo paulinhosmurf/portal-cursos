@@ -53,9 +53,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
           <Link to="/">
             <motion.img 
-              src="/images/icon.png" 
+              src="/images/Logo-Branca.PNG" 
               alt="Portal de Cursos" 
-              style={{ height: isMobile ? '24px' : '48px', objectFit: 'contain', cursor: 'pointer' }}
+              style={{ height: isMobile ? '24px' : '76px', objectFit: 'contain', cursor: 'pointer' }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             />
