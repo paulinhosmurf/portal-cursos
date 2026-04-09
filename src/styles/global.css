@@ -42,6 +42,25 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+
+  /* Proteção de Conteúdo */
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* Exceções para campos de entrada e editores */
+input, textarea, [contenteditable="true"], .ql-editor {
+  user-select: text !important;
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  -ms-user-select: text !important;
+}
+
+/* Impedir arraste de imagens e vídeos */
+img, video {
+  -webkit-user-drag: none;
 }
 
 /* Utilities */

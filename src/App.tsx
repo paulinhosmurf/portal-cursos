@@ -62,6 +62,74 @@ const ProtectedRoute = ({ children, requireAdmin = false }: { children: React.Re
 };
 
 export default function App() {
+  React.useEffect(() => {
+    const handleContextMenu = (e: MouseEvent) => {
+      // Permitir clique direito em campos de texto para colar/copiar
+      const target = e.target as HTMLElement;
+      if (
+        target.tagName === 'INPUT' || 
+        target.tagName === 'TEXTAREA' || 
+        target.isContentEditable ||
+        target.closest('.ql-editor')
+      ) {
+        return;
+      }
+      e.preventDefault();
+    };
+
+    const handleCopy = (e: ClipboardEvent) => {
+      // Bloquear cópia exceto em inputs/textareas
+      const target = e.target as HTMLElement;
+      if (
+        target.tagName === 'INPUT' || 
+        target.tagName === 'TEXTAREA' || 
+        target.isContentEditable ||
+        target.closest('.ql-editor')
+      ) {
+        return;
+      }
+      e.preventDefault();
+    };
+
+    const handleDragStart = (e: DragEvent) => {
+      const target = e.target as HTMLElement;
+      if (target.tagName === 'IMG' || target.tagName === 'VIDEO') {
+        e.preventDefault();
+      }
+    };
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Bloquear F12
+      if (e.key === 'F12') {
+        e.preventDefault();
+      }
+      // Bloquear Ctrl+Shift+I (Inspeção), Ctrl+Shift+C, Ctrl+Shift+J
+      if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C' || e.key === 'J')) {
+        e.preventDefault();
+      }
+      // Bloquear Ctrl+U (Ver código fonte)
+      if (e.ctrlKey && (e.key === 'u' || e.key === 'U')) {
+        e.preventDefault();
+      }
+      // Bloquear Ctrl+S (Salvar página)
+      if (e.ctrlKey && (e.key === 's' || e.key === 'S')) {
+        e.preventDefault();
+      }
+    };
+
+    document.addEventListener('contextmenu', handleContextMenu);
+    document.addEventListener('copy', handleCopy);
+    document.addEventListener('dragstart', handleDragStart);
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('contextmenu', handleContextMenu);
+      document.removeEventListener('copy', handleCopy);
+      document.removeEventListener('dragstart', handleDragStart);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
   return (
     <AuthProvider>
       <BrowserRouter>
