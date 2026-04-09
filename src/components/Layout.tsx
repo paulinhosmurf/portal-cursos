@@ -53,9 +53,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
           <Link to="/">
             <motion.img 
-              src="/images/Logo-Branca.PNG" 
+              src="/images/icon.png" 
               alt="Portal de Cursos" 
-              style={{ height: isMobile ? '24px' : '76px', objectFit: 'contain', cursor: 'pointer' }}
+              style={{ height: isMobile ? '24px' : '48px', objectFit: 'contain', cursor: 'pointer' }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             />
@@ -107,10 +107,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <div className="mobile-brand-header">
             <Link to="/">
               <motion.img 
-                src="/images/Logo-Branca.PNG" 
+                src="/images/icon.png" 
                 alt="Portal de Cursos"
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
+                style={{ height: '50px', objectFit: 'contain' }}
               />
             </Link>
           </div>
